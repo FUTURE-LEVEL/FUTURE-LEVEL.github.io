@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image with Smooth Effect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Remove scrollbars */
+            background-color: black; /* Set background color to black */
+            color: white; /* Set text color to white */
+            font-family: "Dela Gothic One";
+        }
+
+        /* Container for the background effect */
+        .bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/bg.png');
+            background-size: cover;  /* Initially covers the full area */
+            background-position: center;
+            opacity: 0; /* Start fully transparent */
+            filter: blur(10px); /* Start with a strong blur */
+            animation: backgroundAnimation 2s forwards; /* Run animation once */
+        }
+
+        /* Animation for opacity change, size shrink, and blur effect */
+        @keyframes backgroundAnimation {
+            0% {
+                opacity: 0; /* Start with fully transparent */
+                transform: scale(1.5); /* Start with a larger image */
+                filter: blur(0px); /* Start with no blur */
+            }
+            100% {
+                opacity: 0.5;
+                transform: scale(1); /* Shrink to normal size */
+                filter: blur(15px); /* Stronger blur */
+            }
+        }
+
+        /* Top bar styles - this is just the visual background */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px; /* Normal height */
+            background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+            backdrop-filter: blur(15px); /* Increased blur effect */
+            z-index: 10; /* Make sure it's above other content */
+            transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
+            opacity: 0; /* Start transparent for animation */
+            transform: translateY(-100%); /* Start above the screen */
+            animation: topBarFlyDown 1s 0.5s forwards; /* Fly down animation with delay */
+        }
+
+        /* Fly down animation for top bar */
+        @keyframes topBarFlyDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-100%); /* Start above the screen */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* Move to normal position */
+            }
+        }
+
+        /* Logo positioned independently from top bar */
+        .logo {
+            position: fixed;
+            left: 20px;
+            top: 10px;
+            width: 40px; /* Adjust the size of the logo */
+            height: 40px;
+            background-image: url('assets/logo.png'); /* Your logo image */
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 20; /* Higher than top bar */
+            opacity: 0; /* Start transparent for animation */
+            transform: translateY(-50px); /* Start above */
+            animation: logoFlyDown 1s 0.8s forwards; /* Fly down animation with delay */
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Fly down animation for logo */
+        @keyframes logoFlyDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px); /* Start above */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* Move to normal position */
+            }
+        }
+
+        /* Games button positioned independently from top bar */
+        .games-btn {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            background-color: transparent; /* Make the background transparent */
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Light border */
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Added transition for button hover */
+            z-index: 20; /* Higher than top bar */
+            opacity: 0; /* Start transparent for animation */
+            transform: translateY(-50px); /* Start above */
+            animation: buttonFlyDown 1s 1s forwards; /* Fly down animation with delay */
+        }
+
+        /* Fly down animation for button */
+        @keyframes buttonFlyDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px); /* Start above */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0); /* Move to normal position */
+            }
+        }
+
+        .games-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light background color on hover */
+            border-color: white; /* Change the border color on hover */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Centering the title and slogan */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center horizontally and vertically */
+            text-align: center;
+            z-index: 5;
+        }
+
+        /* Title styles */
+        .title {
+            font-size: 3rem; /* Large title font size */
+            font-weight: bold;
+            margin-bottom: 20px; /* Space between title and slogan */
+            opacity: 0; /* Start fully transparent */
+            animation: flyUp 2s forwards; /* Fly-up animation for title */
+        }
+
+        /* Slogan styles */
+        .slogan {
+            font-size: 1.2rem; /* Smaller font size for the slogan */
+            font-family: "Google Sans Code";
+            font-style: italic;
+            opacity: 0; /* Start fully transparent */
+            animation: flyUp 2s forwards;
+            animation-delay: 0.5s; /* Small delay before slogan starts */
+        }
+
+        /* Animation for flying up and opacity change */
+        @keyframes flyUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px); /* Start below the screen */
+            }
+            100% {
+                opacity: 1; /* Fully visible */
+                transform: translateY(0); /* Move to normal position */
+            }
+        }
+
+        /* Game item that appears when top bar expands */
+        .game-item {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            padding: 12px 24px;
+            font-family: "Google Sans Code";
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease-in-out;
+            z-index: 15;
+            background-color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            pointer-events: none;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .game-item.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .game-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hover area for the expanded top bar */
+        .hover-area {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 0;
+            z-index: 12;
+            pointer-events: none;
+        }
+
+        .hover-area.active {
+            height: 90px;
+            pointer-events: all;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Top Bar (background only) -->
+    <div class="top-bar"></div>
+
+    <!-- Hover area to keep top bar expanded -->
+    <div class="hover-area"></div>
+
+    <!-- Game item that appears when top bar expands -->
+    <a href="http://FUTURE-LEVEL.github.io/inthedrawer-forgotten" class="game-item">In The Drawer</a>
+
+    <!-- Logo as a clickable link -->
+    <a href="https://FUTURE-LEVEL.github.io" class="logo" id="logo-link"></a>
+
+    <!-- Games Button -->
+    <button class="games-btn">Games</button>
+
+    <!-- Background container -->
+    <div class="bg-container"></div>
+
+    <!-- Content with title and slogan -->
+    <div class="content">
+        <div class="title">FUTURE LEVEL</div>
+        <div class="slogan">Experience future.</div>
+    </div>
+
+    <script>
+        // Get the elements
+        const gamesButton = document.querySelector('.games-btn');
+        const topBar = document.querySelector('.top-bar');
+        const gameItem = document.querySelector('.game-item');
+        const hoverArea = document.querySelector('.hover-area');
+        const logoLink = document.getElementById('logo-link');
+
+        let isExpanded = false;
+        let collapseTimeout = null;
+
+        // Function to expand the top bar
+        function expandTopBar() {
+            clearTimeout(collapseTimeout);
+            isExpanded = true;
+            topBar.style.height = '150px';
+            gameItem.classList.add('show');
+            hoverArea.classList.add('active');
+        }
+
+        // Function to collapse the top bar
+        function collapseTopBar() {
+            if (isExpanded) {
+                collapseTimeout = setTimeout(() => {
+                    isExpanded = false;
+                    topBar.style.height = '60px';
+                    gameItem.classList.remove('show');
+                    hoverArea.classList.remove('active');
+                }, 100);
+            }
+        }
+
+        // Event listeners for games button
+        gamesButton.addEventListener('mouseenter', expandTopBar);
+        gamesButton.addEventListener('mouseleave', collapseTopBar);
+
+        // Event listeners for game item
+        gameItem.addEventListener('mouseenter', () => {
+            clearTimeout(collapseTimeout);
+            if (!isExpanded) {
+                expandTopBar();
+            }
+        });
+
+        gameItem.addEventListener('mouseleave', collapseTopBar);
+
+        // Event listener for hover area
+        hoverArea.addEventListener('mouseenter', () => {
+            clearTimeout(collapseTimeout);
+        });
+
+        hoverArea.addEventListener('mouseleave', collapseTopBar);
+
+        // Event listener for logo - prevent top bar collapse when hovering over logo
+        logoLink.addEventListener('mouseenter', () => {
+            clearTimeout(collapseTimeout);
+        });
+
+        logoLink.addEventListener('mouseleave', collapseTopBar);
+    </script>
+</body>
+</html>
